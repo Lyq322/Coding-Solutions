@@ -11,7 +11,6 @@ int dist;
 int videos;
 
 void dfs(int pos, int d) {
-  //cout << "pos " << pos << " d " << d << endl;
   for (int i = 0; i < adj_list[pos].size(); i++) {
     if (visited[adj_list[pos][i].first]) {
       continue;
@@ -24,13 +23,10 @@ void dfs(int pos, int d) {
     }
     visited[adj_list[pos][i].first] = true;
     videos++;
-    //cout << "next pos " << adj_list[pos][i].first << endl;
     if (d == 0) {
-      //cout << "distance " << adj_list[pos][i].second << endl;
       dfs(adj_list[pos][i].first, adj_list[pos][i].second);
     }
     else {
-      //cout << "distance " << min(d, adj_list[pos][i].second) << endl;
       dfs(adj_list[pos][i].first, min(d, adj_list[pos][i].second));
     }
     visited[adj_list[pos][i].first] = false;
@@ -54,7 +50,6 @@ int main() {
     cin >> dist >> v;
     v--;
     videos = 0;
-    //cout << "min distance " << dist << endl;
     visited[v] = true;
     dfs(v, 0);
     visited[v] = false;
