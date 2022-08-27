@@ -5,3 +5,4 @@
 - Help Yourself (gold)
 - Angry Cows (gold)
 - Fix Grazing on the Run 7/10 (gold)
+- Stamp Painting (gold)
