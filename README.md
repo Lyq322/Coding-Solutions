@@ -1,7 +1,7 @@
 # Coding-Solutions
 :D
 
-[Some Analysis(?)](https://docs.google.com/document/d/1i1_P9no_608_ftGM63pSs7XVWGCVoRG-TOZIx6lHNBU/edit#)
+[Some analysis, mostly for gold questions(?)](https://docs.google.com/document/d/1i1_P9no_608_ftGM63pSs7XVWGCVoRG-TOZIx6lHNBU/edit#)
 
 ### To do
 - Help Yourself (gold)
