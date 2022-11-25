@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Basic BFS with states {cur_fullness, drink_bool}
+
 ifstream fin;
 ofstream fout;
 
