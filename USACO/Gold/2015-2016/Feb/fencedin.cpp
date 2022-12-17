@@ -1,10 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
+typedef long long ll;
 
 struct Node {
-	int first;
-	int second;
 	int weight;
+	int row;
+	int col;
 };
 
 bool operator<(Node a, Node b) {
@@ -12,66 +13,98 @@ bool operator<(Node a, Node b) {
 }
 
 int main() {
+	ifstream fin("fencedin.in");
+	ofstream fout("fencedin.out");
 	int A, B, N, M;
-	cin >> A >> B >> N >> M;
-	int prev = 0;
-	int vertical[2000];
-	int horizontal[2000];
-	int di[4] = {0, 1, 0, -1};
-	int dj[4] = {1, 0, -1, 0};
+	fin >> A >> B >> N >> M;
+	int hor[2002];
+	int vert[2002];
 	for (int i = 0; i < N; i++) {
-		cin >> vertical[i];
+		fin >> hor[i + 2];
 	}
 	for (int i = 0; i < M; i++) {
-		cin >> horizontal[i];
+		fin >> vert[i + 2];
 	}
-	vertical[N] = 0;
-	vertical[N + 1] = A;
-	horizontal[M] = 0;
-	horizontal[M + 1] = B;
-	sort(vertical, vertical + N + 2);
-	sort(horizontal, horizontal + M + 2);
-	int dist[2001][2001];
-	bool visited[2001][2001] = {{0}};
-	for (int i = 0; i < 2001; i++) {
-		for (int j = 0; j < 2001; j++) {
+	hor[0] = 0;
+	hor[1] = A;
+	vert[0] = 0;
+	vert[1] = B;
+	sort(hor, hor + N + 2);
+	sort(vert, vert + M + 2);
+	int hor_edges[2001];
+	int vert_edges[2001];
+	for (int i = 0; i < N + 1; i++) {
+		vert_edges[i] = hor[i + 1] - hor[i];
+	}
+	for (int i = 0; i < M + 1; i++) {
+		hor_edges[i] = vert[i + 1] - vert[i];
+	}
+	priority_queue<Node> q;
+	q.push({0, 0, 0});
+	ll dist[2001][2001];
+	for (int i = 0; i < M + 1; i++) {
+		for (int j = 0; j < N + 1; j++) {
 			dist[i][j] = -1;
 		}
 	}
+	bool visited[2001][2001] = {{0}};
 	dist[0][0] = 0;
-	priority_queue<Node> q;
-	q.push({0, 0});
 	while (!q.empty()) {
-		pair<int, int> pos = {q.top().first, q.top().second};
-		int weight = q.top().weight;
+		int w = q.top().weight;
+		int r = q.top().row;
+		int c = q.top().col;
 		q.pop();
-		if (visited[pos.first][pos.second]) continue;
-		visited[pos.first][pos.second] = true;
-		for (int i = 0; i < 4; i++) {
-			int a = pos.first + di[i];
-			int b = pos.second + dj[i];
-			if (a >= 0 && b >= 0 && a <= M && b <= N) {
-				int new_weight;
-				if (i == 0 || i == 2) {
-					new_weight = horizontal[a + 1] - horizontal[a];
-				}
-				else {
-					new_weight = vertical[b + 1] - vertical[b];
-				}
-				if (!visited[a][b] && (dist[a][b] == -1 || dist[a][b] > new_weight)) {
-					dist[a][b] = new_weight;
-					q.push({a, b, new_weight});
-				}
+		if (visited[r][c]) {
+			continue;
+		}
+		visited[r][c] = true;
+		int new_r, new_c, next_w;
+		// up 
+		if (r > 0) {
+			new_r = r - 1;
+			new_c = c;
+			next_w = vert_edges[c];
+			if (!visited[new_r][new_c] && (dist[new_r][new_c] == -1 || dist[new_r][new_c] > next_w)) {
+				dist[new_r][new_c] = next_w;
+				q.push({next_w, new_r, new_c});
+			}
+		}
+		// down
+		if (r < M) {
+			new_r = r + 1;
+			new_c = c;
+			next_w = vert_edges[c];
+			if (!visited[new_r][new_c] && (dist[new_r][new_c] == -1 || dist[new_r][new_c] > next_w)) {
+				dist[new_r][new_c] = next_w;
+				q.push({next_w, new_r, new_c});
+			}
+		}
+		// left
+		if (c > 0) {
+			new_r = r;
+			new_c = c - 1;
+			next_w = hor_edges[r];
+			if (!visited[new_r][new_c] && (dist[new_r][new_c] == -1 || dist[new_r][new_c] > next_w)) {
+				dist[new_r][new_c] = next_w;
+				q.push({next_w, new_r, new_c});
+			}
+		}
+		// right
+		if (c < N) {
+			new_r = r;
+			new_c = c + 1;
+			next_w = hor_edges[r];
+			if (!visited[new_r][new_c] && (dist[new_r][new_c] == -1 || dist[new_r][new_c] > next_w)) {
+				dist[new_r][new_c] = next_w;
+				q.push({next_w, new_r, new_c});
 			}
 		}
 	}
-	int ans = 0;
-	for (int i = 0; i <= M; i++) {
-		for (int j = 0; j <= N; j++) {
+	ll ans = 0;
+	for (int i = 0; i < M + 1; i++) {
+		for (int j = 0; j < N + 1; j++) {
 			ans += dist[i][j];
 		}
 	}
-	cout << ans << endl;
+	fout << ans << endl;
 }
-
-// This problem can be thought of an MST problem — find the least number of fences needed to connect all nodes
