@@ -2,6 +2,9 @@
 using namespace std;
 typedef long long ll;
 
+// MST
+// Timed out on last case :(
+
 struct Node {
 	int weight;
 	int row;
