@@ -8,12 +8,14 @@ Use a two pointers on the row to check if the rectangle with row p1-p2, column i
 */
 
 int main() {
+	ifstream fin("fortmoo.in");
+	ofstream fout("fortmoo.out");
 	int N, M;
-	cin >> N >> M;
+	fin >> N >> M;
 	char arr[200][200];
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			cin >> arr[i][j];
+			fin >> arr[i][j];
 		}
 	}
 	bool check_row[200][200][200];
@@ -52,5 +54,5 @@ int main() {
 			}
 		}
 	}
-	cout << ans << endl;
+	fout << ans << endl;
 }
