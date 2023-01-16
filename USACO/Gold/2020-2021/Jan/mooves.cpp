@@ -3,6 +3,13 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef long long ll;
 
+/*
+First we can simulate the first round of mooves, keeping track of the positions a cow starting at index i in an array of sets and the changed cow position array
+Using the changed array, we can create a directed graph with <= N cycles, where if a -> b then the next position of cow at index a will be index b
+Notice that if the cycle length is <= M / K, then all cows in the cycle will have been to the same positions — the union of the sets of all cows in the cycle
+If the cycle length is longer, then we can maintain a sliding window, and add the remainder at the end
+*/
+
 int main() {
 	ll N, M, K;
 	cin >> N >> M >> K;

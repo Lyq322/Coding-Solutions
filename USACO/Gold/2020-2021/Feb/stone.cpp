@@ -2,6 +2,15 @@
 using namespace std;
 typedef long long ll;
 
+/*
+The game is the same as if the rules are the following:
+	At each move, the cows first divide every pile of stone by x (can be 1), then remove 1 stone from each pile
+After dividing by x, if there are an odd number of piles with y stones then whoever first takes one from those odd piles wins
+This means that we don’t want any odd piles after Bessie’s first move
+	So after dividing by x, the piles with y stones we take from needs to be odd, and the piles with y - 1 stones also needs to be odd (exception is when y - 1 = 0)
+Using prefix sum, we can find for each # of stones y, the number of piles it will have after dividing by x
+*/
+
 int main() {
 	int N;
 	cin >> N;
